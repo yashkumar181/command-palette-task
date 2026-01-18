@@ -29,3 +29,6 @@ A fully accessible, keyboard-first Command Palette built from scratch. Demonstra
 3. Open http://localhost:6006 to interact with the component.
    ```bash
    npm run storybook   
+
+## 🔗 Live Demo
+- **Public Storybook**: [vermillion-sprite-e1dedb.netlify.app/]
