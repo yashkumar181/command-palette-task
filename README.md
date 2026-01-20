@@ -31,4 +31,4 @@ A fully accessible, keyboard-first Command Palette built from scratch. Demonstra
    npm run storybook   
 
 ## 🔗 Live Demo
-- **Public Storybook**: [vermillion-sprite-e1dedb.netlify.app/]
+- **Public Storybook**: [https://696fdbbbbb84b5a988d78e36-cpgoorutvr.chromatic.com/]
