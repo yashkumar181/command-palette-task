@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// src/App.tsx
+import { CommandPalette } from './components/CommandPalette/CommandPalette';
+import { Command } from './types';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const commands: Command[] = [
+    { 
+        id: '1', 
+        label: 'Toggle Dark Mode', 
+        action: () => alert('Dark Mode Toggled') 
+    },
+    
+    // --- Async & Dynamic Command (Task 4) ---
+    {
+        id: 'user-search',
+        label: 'Search Users...',
+        // This runs every time the user types inside this command
+        fetchSubCommands: async (query) => {
+            if (!query) return []; 
+            
+            // Simulate API Latency (500ms)
+            await new Promise(r => setTimeout(r, 500));
+            
+            // Mock Data
+            const users = ['Alice', 'Bob', 'Charlie', 'David', 'Eve'];
+            return users
+                .filter(u => u.toLowerCase().includes(query.toLowerCase()))
+                .map(u => ({
+                    id: u.toLowerCase(),
+                    label: `User: ${u}`,
+                    action: () => alert(`Selected User: ${u}`)
+                }));
+        }
+    },
+    // ------------------------------------------
+
+    { 
+        id: '2', 
+        label: 'Navigation...', 
+        // Static Sub-commands
+        subCommands: [
+            { id: '2-1', label: 'Go to Settings', action: () => alert('Nav: Settings') },
+            { id: '2-2', label: 'Go to Profile', action: () => alert('Nav: Profile') },
+        ]
+    },
+    { 
+        id: '3', 
+        label: 'Git...', 
+        subCommands: [
+            { id: '3-1', label: 'Git Checkout', action: () => alert('Git: Checkout') },
+            { id: '3-2', label: 'Git Commit', action: () => alert('Git: Commit') },
+        ]
+    },
+  ];
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="min-h-screen bg-black text-zinc-400 flex flex-col items-center justify-center p-4">
+      <h1 className="text-3xl font-bold text-white mb-4">Command Palette Demo</h1>
+      <p className="mb-8">Press <kbd className="bg-zinc-800 px-2 py-1 rounded text-white">Cmd + K</kbd> to open</p>
+      
+      <CommandPalette commands={commands} />
+    </div>
+  );
 }
 
-export default App
+export default App;
