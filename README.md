@@ -78,4 +78,13 @@ npm install
 npm run dev
 ```
 
+### 3. Run Tests
+Execute the Vitest suite to verify logic, accessibility, and keyboard interactions.
+```bash
+npm test
+```
+### 4. View Storybook
+```bash
+npm run storybook
+```
 
