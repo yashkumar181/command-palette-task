@@ -71,7 +71,11 @@ Avoided complex global state managers (Redux/Zustand) in favor of **React Local 
 ### 1. Installation
 ```bash
 npm install
+```
 
 ### 2. Run Development Server
 ```bash
 npm run dev
+```
+
+
