@@ -88,3 +88,27 @@ npm test
 npm run storybook
 ```
 
+## 📂 Project Structure
+
+```text
+src/
+├── components/
+│   └── CommandPalette/
+│       ├── hooks/
+│       │   └── useFocusTrap.ts       # Custom hook for modal focus management
+│       ├── utils/
+│       │   └── fuzzySearch.ts        # Pure logic: O(n) search algorithm
+│       ├── CommandPalette.tsx        # Main Component (Logic + UI)
+│       └── CommandPalette.test.tsx   # Automated Integration Tests
+├── types.ts                          # Command interfaces & Plugin API
+├── App.tsx                           # Example Implementation (Plugin Registry)
+└── ...
+```
+## 📄 Deliverables Links
+
+* **[Performance Report](./PERFORMANCE.md)**: Detailed breakdown of latency measurements and debounce strategies.
+* **[Accessibility Report](./ACCESSIBILITY.md)**: Compliance audit regarding ARIA roles and keyboard traps.
+* **[Public Storybook](https://696fdbbbbb84b5a988d78e36-cpgoorutvr.chromatic.com/)**: Live interactive demo of the component.
+
+---
+Author: [Yash Kumar]
