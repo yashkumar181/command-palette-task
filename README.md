@@ -111,4 +111,13 @@ src/
 * **[Public Storybook](https://696fdbbbbb84b5a988d78e36-cpgoorutvr.chromatic.com/)**: Live interactive demo of the component.
 
 ---
+## 📸 Visual Preview
+
+| **Idle State (Dark Mode)** | **Active Search (Fuzzy Matching)** |
+| :---: | :---: |
+| ![Idle State](./screenshots/idle-state.png) | ![Search State](./screenshots/search-state.png) |
+
+| **Async Loading State** | **Mobile Responsive View** |
+| :---: | :---: |
+| ![Loading Spinner](./screenshots/loading-state.png) | ![Mobile View](./screenshots/mobile-view.png) |
 Author: [Yash Kumar]
