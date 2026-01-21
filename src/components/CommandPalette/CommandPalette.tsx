@@ -1,4 +1,3 @@
-// src/components/CommandPalette/CommandPalette.tsx
 
 import { useState, useEffect, useMemo, useRef } from 'react';
 import { fuzzySearch } from './utils/fuzzySearch';
@@ -14,25 +13,25 @@ export const CommandPalette = ({ commands }: CommandPaletteProps) => {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   
-  // Breadcrumbs for navigation (e.g., [Main] -> [Settings] -> [Profile])
+  //breadcrumbs for navigation (e.g., [Main] -> [Settings] -> [Profile])
   const [navigationPath, setNavigationPath] = useState<Command[]>([]); 
   
-  // State for Async Actions & Dynamic Searching
+  //state for Async Actions & Dynamic Searching
   const [loading, setLoading] = useState(false);
   const [dynamicResults, setDynamicResults] = useState<Command[]>([]);
   
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // 1. Identify the Current Context
+  //identify the current Context
   // Are we at the root, or deep in a sub-menu?
   const activeCommand = navigationPath.length > 0 ? navigationPath[navigationPath.length - 1] : null;
   
-  // 2. Check if the current context is "Dynamic" (needs to fetch data from API)
+  //check if the current context is dynamic (needs to fetch data from API)
   const isDynamic = !!activeCommand?.fetchSubCommands;
 
-  // 3. Dynamic Data Fetching (Debounced)
+  // 3. Dynamic Data Fetching
   useEffect(() => {
-    // Only run if we are in a dynamic command context
+    // Only run if we are in a dynamic command
     if (!isDynamic || !activeCommand?.fetchSubCommands) return;
 
     const timeoutId = setTimeout(async () => {
@@ -51,14 +50,14 @@ export const CommandPalette = ({ commands }: CommandPaletteProps) => {
     return () => clearTimeout(timeoutId);
   }, [query, isDynamic, activeCommand]);
 
-  // 4. Determine which list of commands to display
+  //determine which list of commands to display
   const filteredCommands = useMemo(() => {
-    // CASE A: Dynamic Mode -> Show fetched results directly (API handles filtering)
+    // CASE 1: Dynamic Mode -> Show fetched results directly (API handles filtering)
     if (isDynamic) {
         return dynamicResults;
     }
 
-    // CASE B: Static Mode -> Filter the static list locally
+    // CASE 2: Static Mode -> Filter the static list locally
     const scope = activeCommand ? (activeCommand.subCommands || []) : commands;
     
     // If query is empty, show all available in this scope
@@ -73,7 +72,7 @@ export const CommandPalette = ({ commands }: CommandPaletteProps) => {
   // Reset selection index when the list changes
   useEffect(() => { setSelectedIndex(0); }, [filteredCommands]);
 
-  // 5. Global Keyboard Toggle (Cmd+K / Ctrl+K)
+  //Global Keyboard Toggle (Cmd+K / Ctrl+K)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -106,7 +105,7 @@ export const CommandPalette = ({ commands }: CommandPaletteProps) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, navigationPath, loading]);
 
-  // 6. Connect Focus Trap
+  //connect Focus Trap
   useFocusTrap(containerRef, isOpen);
 
   // 7. Helper to Execute Commands

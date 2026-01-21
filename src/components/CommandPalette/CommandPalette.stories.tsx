@@ -1,12 +1,9 @@
-// src/components/CommandPalette/CommandPalette.stories.tsx
-
 import type { Meta, StoryObj } from '@storybook/react';
 import { userEvent, within, expect } from '@storybook/test';
 import { CommandPalette } from './CommandPalette';
 import { Command } from '../../types';
 
-// --- 1. MOCK DATA SETUP ---
-// We create a robust set of commands to demonstrate all features
+//mockk data
 const mockCommands: Command[] = [
   { 
     id: '1', 
@@ -22,12 +19,10 @@ const mockCommands: Command[] = [
     ]
   },
   {
-    // This demonstrates the ASYNC LOADING state
     id: 'async-search',
     label: 'Search Users (Async)...',
     fetchSubCommands: async (query) => {
         if (!query) return [];
-        // Simulate 800ms Network Delay so the spinner is visible
         await new Promise(r => setTimeout(r, 800));
         return [
             { id: 'u1', label: `User: ${query} (1)`, action: () => alert('Selected 1') },
@@ -36,14 +31,12 @@ const mockCommands: Command[] = [
     }
   }
 ];
-
 const meta = {
   title: 'Components/CommandPalette',
   component: CommandPalette,
   parameters: {
-    layout: 'fullscreen', // Removes default padding for a realistic modal view
+    layout: 'fullscreen',
   },
-  // Decorator to provide context/background
   decorators: [
     (Story) => (
       <div className="min-h-screen bg-black text-white p-8 font-sans">
@@ -69,9 +62,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-// --- 2. STORIES ---
-
-// Basic Story: User must manually press Cmd+K
+// Basic Story , User must manually press Cmd+K
 export const Playground: Story = {
   args: {
     commands: mockCommands,
@@ -79,7 +70,7 @@ export const Playground: Story = {
 };
 
 // Interaction Story: Automatically opens and types to show the Loading State
-// This proves "Loading states" requirement without the reviewer doing anything.
+// This proves Loading states without the reviewer doing anything
 export const DemoLoadingState: Story = {
   args: {
     commands: mockCommands,
@@ -88,21 +79,16 @@ export const DemoLoadingState: Story = {
     const canvas = within(canvasElement);
 
     await step('Open Palette', async () => {
-      // Simulate Cmd+K
       await userEvent.keyboard('{Meta>}{k}{/Meta}');
     });
 
     await step('Navigate to Async Search', async () => {
-      // Arrow Down x 2 -> Enter
       await userEvent.keyboard('{ArrowDown}{ArrowDown}{Enter}');
     });
 
     await step('Trigger Search', async () => {
-      // Type "test" to trigger the fetch
       const input = canvas.getByPlaceholderText('Type to search...');
       await userEvent.type(input, 'test', { delay: 50 });
     });
-
-    // The Loading Spinner will now be visible in the UI
   },
 };

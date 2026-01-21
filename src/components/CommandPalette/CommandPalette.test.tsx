@@ -1,4 +1,3 @@
-// src/components/CommandPalette/CommandPalette.test.tsx
 
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
@@ -22,7 +21,6 @@ const mockCommands: Command[] = [
 describe('CommandPalette', () => {
   it('does not render initially (hidden)', () => {
     render(<CommandPalette commands={mockCommands} />);
-    // Should not find the input because it's closed
     const input = screen.queryByPlaceholderText(/Type a command/i);
     expect(input).not.toBeInTheDocument();
   });
@@ -30,7 +28,7 @@ describe('CommandPalette', () => {
   it('opens when Cmd+K is pressed', () => {
     render(<CommandPalette commands={mockCommands} />);
     
-    // Simulate Cmd+K
+    // simulate ctrl+K
     fireEvent.keyDown(window, { key: 'k', metaKey: true });
     
     // Check if open
@@ -42,11 +40,11 @@ describe('CommandPalette', () => {
   it('closes when Escape is pressed', () => {
     render(<CommandPalette commands={mockCommands} />);
     
-    // Open it
+    // Open
     fireEvent.keyDown(window, { key: 'k', metaKey: true });
     expect(screen.getByRole('dialog')).toBeInTheDocument();
 
-    // Close it
+    // Close
     fireEvent.keyDown(window, { key: 'Escape' });
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -56,8 +54,7 @@ describe('CommandPalette', () => {
     fireEvent.keyDown(window, { key: 'k', metaKey: true });
 
     const input = screen.getByPlaceholderText(/Type a command/i);
-    
-    // Type "Two"
+
     fireEvent.change(input, { target: { value: 'Two' } });
 
     // Should see Command Two, but NOT Command One
@@ -69,18 +66,16 @@ describe('CommandPalette', () => {
     render(<CommandPalette commands={mockCommands} />);
     fireEvent.keyDown(window, { key: 'k', metaKey: true });
 
-    // Initially, first item selected (index 0 -> Command One)
-    // Press Arrow Down -> Selects index 1 (Command Two)
+    //initially first item selected (index 0 -> Command One)
+    //press Arrow Down -> Selects index 1 (Command Two)
     fireEvent.keyDown(window, { key: 'ArrowDown' });
 
-    // Press Enter to execute
+    //press Enter to execute
     fireEvent.keyDown(window, { key: 'Enter' });
 
-    // Verify action was called
+    //verify action was called
     expect(mockCommands[1].action).toHaveBeenCalled();
   });
-
-// ... inside CommandPalette.test.tsx
 
   it('handles Async Parameterized Search (Real Timers)', async () => {
     // 1. Render without fake timers (Real browser behavior)
@@ -112,6 +107,4 @@ describe('CommandPalette', () => {
     const statusRegion = screen.getByRole('status');
     expect(statusRegion).toHaveTextContent(/1 results available/i);
   });
-
-// ... end of describe block
 });

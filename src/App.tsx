@@ -1,4 +1,3 @@
-// src/App.tsx
 import { CommandPalette } from './components/CommandPalette/CommandPalette';
 import { Command } from './types';
 
@@ -10,18 +9,15 @@ function App() {
         action: () => alert('Dark Mode Toggled') 
     },
     
-    // --- Async & Dynamic Command (Task 4) ---
+    //async ,dynamic command
     {
         id: 'user-search',
         label: 'Search Users...',
         // This runs every time the user types inside this command
         fetchSubCommands: async (query) => {
             if (!query) return []; 
-            
-            // Simulate API Latency (500ms)
             await new Promise(r => setTimeout(r, 500));
-            
-            // Mock Data
+            //mock data
             const users = ['Alice', 'Bob', 'Charlie', 'David', 'Eve'];
             return users
                 .filter(u => u.toLowerCase().includes(query.toLowerCase()))
@@ -32,12 +28,9 @@ function App() {
                 }));
         }
     },
-    // ------------------------------------------
-
     { 
         id: '2', 
         label: 'Navigation...', 
-        // Static Sub-commands
         subCommands: [
             { id: '2-1', label: 'Go to Settings', action: () => alert('Nav: Settings') },
             { id: '2-2', label: 'Go to Profile', action: () => alert('Nav: Profile') },
@@ -57,7 +50,6 @@ function App() {
     <div className="min-h-screen bg-black text-zinc-400 flex flex-col items-center justify-center p-4">
       <h1 className="text-3xl font-bold text-white mb-4">Command Palette Demo</h1>
       <p className="mb-8">Press <kbd className="bg-zinc-800 px-2 py-1 rounded text-white">Cmd + K</kbd> to open</p>
-      
       <CommandPalette commands={commands} />
     </div>
   );
